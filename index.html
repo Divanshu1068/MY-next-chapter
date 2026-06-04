@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Next Chapter — Divanshu Sharma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --bg-panel: #161616;
+    --bg-card: #1a1a1a;
+    --bg-card-hover: #202020;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.15);
+    --text-primary: #f0f0f0;
+    --text-secondary: #888;
+    --text-muted: #555;
+    --accent: #c8a96e;
+    --accent-soft: rgba(200,169,110,0.12);
+    --accent-softer: rgba(200,169,110,0.06);
+    --radius: 12px;
+    --radius-lg: 18px;
+    --shadow: 0 8px 40px rgba(0,0,0,0.5);
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(15,15,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: padding 0.3s;
+  }
+  nav.scrolled { padding: 14px 48px; }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 6px; list-style: none; }
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+  .nav-links a.active { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: scaleBlurIn 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: scaleBlurIn 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 460px;
+    margin-bottom: 44px;
+    font-weight: 300;
+    opacity: 0;
+    animation: scaleBlurIn 0.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 12px;
+    opacity: 0;
+    animation: scaleBlurIn 0.8s 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0f0f0f;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border-hover);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { color: var(--text-primary); border-color: var(--text-secondary); transform: translateY(-1px); }
+  .hero-scroll {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0;
+    animation: scaleBlurIn 0.8s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-scroll span {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--border-hover), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── LAYOUT ── */
+  .section {
+    padding: 100px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 56px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text-primary);
+  }
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0 40px;
+    max-width: calc(100% - 80px);
+  }
+
+  /* ── CARD TILT BASE ── */
+  .tilt-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    transform-style: preserve-3d;
+    will-change: transform;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+  }
+  .tilt-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,169,110,0.1);
+    background: var(--bg-card-hover);
+  }
+
+  /* ── SECTION 1: ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .about-main {
+    grid-column: 1 / -1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+  }
+  .about-main h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+  .about-main p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .about-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .about-stat-card .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .about-stat-card .stat-value {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .about-stat-card .stat-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  /* ── SECTION 2: SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .skill-card {
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-number {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .skill-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 18px;
+    line-height: 1.3;
+  }
+  .skill-field {
+    margin-bottom: 14px;
+  }
+  .skill-field-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .skill-field-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-weight: 300;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ── SECTION 3: BEST WORK ── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .work-project-num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: block;
+    text-transform: uppercase;
+  }
+  .work-project-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 18px;
+  }
+  .work-detail { margin-bottom: 12px; }
+  .work-detail-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .work-detail-value {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    font-style: italic;
+  }
+  .work-btn {
+    display: inline-block;
+    text-align: center;
+    background: var(--accent);
+    color: #0f0f0f;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 11px;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: auto;
+    transition: opacity 0.2s;
+  }
+  .work-btn:hover { opacity: 0.9; }
+
+  /* ── SECTION 4: NEXT STEP ── */
+  .routes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .route-card { position: relative; }
+  .route-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 100px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .route-badge.alt {
+    background: rgba(255,255,255,0.04);
+    border-color: var(--border-hover);
+    color: var(--text-secondary);
+  }
+  .route-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+  .route-grid { margin-bottom: 20px; }
+  .route-field { margin-bottom: 20px; }
+  .route-field-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .route-field-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-weight: 300;
+    font-style: italic;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.025);
+    border-radius: 8px;
+    border-left: 2px solid var(--border-hover);
+  }
+
+  /* ── SECTION 5: CV ── */
+  .cv-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .cv-header {
+    background: linear-gradient(135deg, #1e1a14, #1a1a1a);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .cv-name {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .cv-title {
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .cv-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    min-height: 520px;
+  }
+  .cv-main { padding: 36px 40px; border-right: 1px solid var(--border); }
+  .cv-sidebar { padding: 36px 28px; }
+  .cv-section { margin-bottom: 32px; }
+  .cv-section-title {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cv-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .cv-profile-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    font-weight: 300;
+    font-style: italic;
+  }
+  .cv-edu-item { margin-bottom: 16px; }
+  .cv-edu-qual {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .cv-edu-place {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+  .cv-edu-date {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .cv-project-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .cv-project-item:last-child { margin-bottom: 0; }
+  .cv-project-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .cv-project-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    font-style: italic;
+  }
+  .cv-skill-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 9px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 3px 3px 3px 0;
+  }
+  .cv-hobby-item {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cv-hobby-item:last-child { border-bottom: none; }
+  .cv-hobby-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── REFLECTION ── */
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .reflect-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    transition: border-color 0.2s;
+  }
+  .reflect-card:hover { border-color: var(--border-hover); }
+  .reflect-q-num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .reflect-question {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .reflect-answer {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    font-style: italic;
+    padding: 12px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    min-height: 64px;
+  }
+  .ilp-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .ilp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .ilp-table th {
+    background: rgba(200,169,110,0.08);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .ilp-table td {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    font-style: italic;
+    vertical-align: top;
+  }
+  .ilp-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .footer-brand {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .footer-brand span { color: var(--accent); }
+  .footer-filename {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .footer-filename strong { color: var(--text-secondary); }
+
+  /* ── BASE CSS ANIMATIONS KEYFRAMES ── */
+  @keyframes scaleBlurIn {
+    from { opacity: 0; filter: blur(4px); transform: scale(0.96); }
+    to   { opacity: 1; filter: blur(0); transform: scale(1); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* ── PREMIUM SCROLL REVEAL (SCALE & BLUR) ── */
+  .reveal {
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(0.96);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+  .reveal-delay-6 { transition-delay: 0.6s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .skills-grid, .work-grid { grid-template-columns: 1fr 1fr; }
+    .routes-grid, .about-grid { grid-template-columns: 1fr; }
+    .cv-body { grid-template-columns: 1fr; }
+    .cv-main { border-right: none; border-bottom: 1px solid var(--border); }
+    .reflection-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .skills-grid, .work-grid { grid-template-columns: 1fr; }
+    .section { padding: 64px 20px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">My<span>.</span>Next Chapter</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#work">Best Work</a></li>
+    <li><a href="#research">Next Step</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#reflection">Reflection</a></li>
+  </ul>
+</nav>
+
+<section id="hero" class="hero">
+  <p class="hero-eyebrow">Level 2 Esports — College Progression Portfolio</p>
+  <h1>My <em>Next</em><br>Chapter</h1>
+  <p class="hero-sub">A personal portfolio showing my journey through Level 2 Esports at Reading College, learning how to use digital platforms and edit media.</p>
+  <div class="hero-cta">
+    <a href="#about" class="btn-primary">View Portfolio</a>
+    <a href="#cv" class="btn-outline">Jump to CV</a>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="about" class="section">
+  <div class="section-header reveal">
+    <h2 class="section-title">About Me</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-main reveal">
+      <h3>Divanshu Sharma</h3>
+      <p>My name is <strong>Divanshu Sharma</strong>, and I am finishing my Level 2 Esports course at Reading College. Over the past year, I’ve discovered that my real interest lies in exploring how different software tools work to create something completely of my own. I enjoy working in digital spaces because it feels natural to me, and I love the process of building new things from scratch.</p>
+      <p style="margin-top: 14px;">For me, technology is about learning the mechanics of a system—whether that's digital applications or physical machinery—and using that knowledge to build solid projects.</p>
+      <p style="margin-top: 14px;">Outside of college, I enjoy watching action, sci-fi, adventure, and comedy series or movies. I also love gaming and watching high-speed racing like Formula 1 and endurance races. When I work on my own, I can easily tune out room noise and completely focus on my editing timeline. My primary path forward is to start the **T Level Software Development** course at Reading College to combine software skills with visual tool building, while keeping **Motor Vehicle Mechanics** as a strong alternative path.</p>
+    </div>
+
+    <div class="about-stat-card reveal reveal-delay-1">
+      <span class="stat-label">Current Programme</span>
+      <span class="stat-value">Level 2 Esports</span>
+      <span class="stat-sub">Reading College</span>
+    </div>
+    <div class="about-stat-card reveal reveal-delay-2">
+      <span class="stat-label">Goal — Next Chapter</span>
+      <span class="stat-value">T Level Software Dev</span>
+      <span class="stat-sub">Focusing on Platform Design & Tools</span>
+    </div>
+    <div class="about-stat-card reveal reveal-delay-3">
+      <span class="stat-label">Key Strengths</span>
+      <span class="stat-value">Building From Scratch</span>
+      <span class="stat-sub">Software exploration</span>
+    </div>
+    <div class="about-stat-card reveal reveal-delay-4">
+      <span class="stat-label">Alternative Route</span>
+      <span class="stat-value">Motor Vehicle Mechanic</span>
+      <span class="stat-sub">Practical engineering logic & endurance racing love</span>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="skills" class="section">
+  <div class="section-header reveal">
+    <h2 class="section-title">Skills I Have Developed</h2>
+  </div>
+
+  <div class="skills-grid">
+
+    <div class="tilt-card skill-card reveal reveal-delay-1">
+      <span class="skill-number">01</span>
+      <h3 class="skill-title">Video Timeline Architecture</h3>
+      <div class="skill-field">
+        <span class="skill-field-label">Where I used it on the course</span>
+        <div class="skill-field-box">Assembled video clips in CapCut, choosing the best shots and matching cuts tightly onto the music beats.</div>
+      </div>
+      <div class="skill-field">
+        <span class="skill-field-label">How it helps my future</span>
+        <div class="skill-field-box">Teaches me how to structure timelines and follow a clean project workflow step-by-step.</div>
+      </div>
+    </div>
+
+    <div class="tilt-card skill-card reveal reveal-delay-2">
+      <span class="skill-number">02</span>
+      <h3 class="skill-title">Digital Software Mastery</h3>
+      <div class="skill-field">
+        <span class="skill-field-label">Where I used it on the course</span>
+        <div class="skill-field-box">Taught myself how to navigate multiple media frameworks, control panels, and software tools independently.</div>
+      </div>
+      <div class="skill-field">
+        <span class="skill-field-label">How it helps my future</span>
+        <div class="skill-field-box">Gives me the ability to quickly figure out and learn professional software suites in T Levels.</div>
+      </div>
+    </div>
+
+    <div class="tilt-card skill-card reveal reveal-delay-3">
+      <span class="skill-number">03</span>
+      <h3 class="skill-title">Digital Layout Composition</h3>
+      <div class="skill-field">
+        <span class="skill-field-label">Where I used it on the course</span>
+        <div class="skill-field-box">Created clean team branding layouts and visual boards using Canva graphics systems.</div>
+      </div>
+      <div class="skill-field">
+        <span class="skill-field-label">How it helps my future</span>
+        <div class="skill-field-box">Helps me understand how to balance visual themes and style frontend user spaces neatly.</div>
+      </div>
+    </div>
+
+    <div class="tilt-card skill-card reveal reveal-delay-1">
+      <span class="skill-number">04</span>
+      <h3 class="skill-title">Livestream Encoder Configurations</h3>
+      <div class="skill-field">
+        <span class="skill-field-label">Where I used it on the course</span>
+        <div class="skill-field-box">Set up window captures, mixed audio outputs, and monitored streaming bitrates using OBS Studio.</div>
+      </div>
+      <div class="skill-field">
+        <span class="skill-field-label">How it helps my future</span>
+        <div class="skill-field-box">Helps me understand how multimedia apps process video feeds and manage data signals.</div>
+      </div>
+    </div>
+
+    <div class="tilt-card skill-card reveal reveal-delay-2">
+      <span class="skill-number">05</span>
+      <h3 class="skill-title">Technical Project Troubleshooting</h3>
+      <div class="skill-field">
+        <span class="skill-field-label">Where I used it on the course</span>
+        <div class="skill-field-box">Adjusted system properties and resolved app lag to keep my streaming work running smoothly.</div>
+      </div>
+      <div class="skill-field">
+        <span class="skill-field-label">How it helps my future</span>
+        <div class="skill-field-box">Builds the problem-solving mindset needed to find system errors and test app interfaces.</div>
+      </div>
+    </div>
+
+    <div class="tilt-card skill-card reveal reveal-delay-3">
+      <span class="skill-number">06</span>
+      <h3 class="skill-title">Deep Focus Independent Work</h3>
+      <div class="skill-field">
+        <span class="skill-field-label">Where I used it on the course</span>
+        <div class="skill-field-box">Discovered that blocking out room noise allows me to learn new digital tools and layouts very fast.</div>
+      </div>
+      <div class="skill-field">
+        <span class="skill-field-label">How it helps my future</span>
+        <div class="skill-field-box">The exact individual work ethic needed to complete large technical projects and learn new things.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="work" class="section">
+  <div class="section-header reveal">
+    <h2 class="section-title">My Best Work</h2>
+  </div>
+
+  <div class="work-grid">
+
+    <div class="tilt-card work-card reveal reveal-delay-1">
+      <span class="work-project-num">Project 01</span>
+      <h3 class="work-project-name">FMP Level 2 Esports Video</h3>
+      <div class="work-detail">
+        <span class="work-detail-label">My Role</span>
+        <p class="work-detail-value">Video Editor & Content Producer</p>
+      </div>
+      <div class="work-detail">
+        <span class="work-detail-label">Skills Demonstrated</span>
+        <p class="work-detail-value">CapCut timeline matching, clip syncing to music, and video pacing.</p>
+      </div>
+      <div class="work-detail">
+        <span class="work-detail-label">What Went Well</span>
+        <p class="work-detail-value">Focused closely on music timing to cut clips cleanly, creating a sharp video showcase.</p>
+      </div>
+      <div class="work-detail" style="margin-bottom: 20px;">
+        <span class="work-detail-label">Areas for Improvement</span>
+        <p class="work-detail-value">Keen to try mixing layered background sound effects on the timeline next time.</p>
+      </div>
+      
+      <a href="https://youtu.be/KiCqsk36upU?si=pm5qbh4-5R_xlc28" target="_blank" class="work-btn">Watch FMP Video</a>
+    </div>
+
+    <div class="tilt-card work-card reveal reveal-delay-2">
+      <span class="work-project-num">Project 02</span>
+      <h3 class="work-project-name">Esports Branding & Assets</h3>
+      <div class="work-detail">
+        <span class="work-detail-label">My Role</span>
+        <p class="work-detail-value">Visual Layout Designer</p>
+      </div>
+      <div class="work-detail">
+        <span class="work-detail-label">Skills Demonstrated</span>
+        <p class="work-detail-value">Canva design layouts, theme balancing, and clean formatting styles.</p>
+      </div>
+      <div class="work-detail">
+        <span class="work-detail-label">What Went Well</span>
+        <p class="work-detail-value">Assembled a clean logo and social graphics asset set that looked modern and organized.</p>
+      </div>
+      <div class="work-detail" style="margin-bottom: 20px;">
+        <span class="work-detail-label">Areas for Improvement</span>
+        <p class="work-detail-value">Would love to experiment with creating custom vector elements from scratch.</p>
+      </div>
+    </div>
+
+    <div class="tilt-card work-card reveal reveal-delay-3">
+      <span class="work-project-num">Project 03</span>
+      <h3 class="work-project-name">Live Broadcaster Systems</h3>
+      <div class="work-detail">
+        <span class="work-detail-label">My Role</span>
+        <p class="work-detail-value">Broadcast Layout Setup</p>
+      </div>
+      <div class="work-detail">
+        <span class="work-detail-label">Skills Demonstrated</span>
+        <p class="work-detail-value">OBS window mapping, stream layouts, and audio source paths.</p>
+      </div>
+      <div class="work-detail">
+        <span class="work-detail-label">What Went Well</span>
+        <p class="work-detail-value">Mixed multiple stream visuals together smoothly without causing screen lag or dropouts.</p>
+      </div>
+      <div class="work-detail" style="margin-bottom: 20px;">
+        <span class="work-detail-label">Areas for Improvement</span>
+        <p class="work-detail-value">Want to look into using shortcuts to trigger scene changes instantly without mouse inputs.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="research" class="section">
+  <div class="section-header reveal">
+    <h2 class="section-title">Research My Next Step</h2>
+  </div>
+
+  <div class="routes-grid">
+
+    <div class="tilt-card route-card reveal reveal-delay-1">
+      <div class="route-badge">★ Preferred Route</div>
+      <h3 class="route-title">Route 1:<br>T Level Software Development</h3>
+      <div class="route-field">
+        <span class="route-field-label">What the Route Involves</span>
+        <p class="route-field-text">A 2-year technical program at Reading College covering software setups, application interfaces, testing tools, and 45 days of industry work placement.</p>
+      </div>
+      <div class="route-field">
+        <span class="route-field-label">Entry Requirements</span>
+        <p class="route-field-text">Requires 5 GCSE passes at Grade 4 or above, including passing marks in English Language and Mathematics.</p>
+      </div>
+      <div class="route-field">
+        <span class="route-field-label">Why It Interests Me</span>
+        <p class="route-field-text">It fits my goal of learning software platforms. It gives me the technical background to build digital tools, user spaces, and projects from scratch.</p>
+      </div>
+      <div class="route-field">
+        <span class="route-field-label">Next Steps to Prepare</span>
+        <p class="route-field-text">Submit all remaining Level 2 production briefs and look into basic software tools over the summer break.</p>
+      </div>
+    </div>
+
+    <div class="tilt-card route-card reveal reveal-delay-2">
+      <div class="route-badge alt">Alternative Route</div>
+      <h3 class="route-title">Route 2:<br>Motor Vehicle Course</h3>
+      <div class="route-field">
+        <span class="route-field-label">What the Route Involves</span>
+        <p class="route-field-text">Hands-on engine work, tracking vehicle electronics, car servicing, and learning workshop safety rules.</p>
+      </div>
+      <div class="route-field">
+        <span class="route-field-label">Entry Requirements</span>
+        <p class="route-field-text">Level 2 vocational passes or matching marks in practical engineering entry tests.</p>
+      </div>
+      <div class="route-field">
+        <span class="route-field-label">Why It Interests Me</span>
+        <p class="route-field-text">Links directly to my love for racing and automotive setups. This background offers an excellent alternative path toward a vehicle mechanic career.</p>
+      </div>
+      <div class="route-field">
+        <span class="route-field-label">Next Steps to Prepare</span>
+        <p class="route-field-text">Collect final course results and look at automotive engineering training spots available around Berkshire.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="cv" class="section">
+  <div class="section-header reveal">
+    <h2 class="section-title">CV Starter Page</h2>
+  </div>
+
+  <div class="cv-wrapper reveal">
+    <div class="cv-header">
+      <h2 class="cv-name">Divanshu Sharma</h2>
+      <p class="cv-title">Level 2 Esports Student · Aspiring Software Platform Specialist</p>
+    </div>
+
+    <div class="cv-body">
+      <div class="cv-main">
+
+        <div class="cv-section">
+          <h4 class="cv-section-title">Personal Profile</h4>
+          <p class="cv-profile-text">A motivated student with strong skills in learning digital applications, managing media software, and designing visual layouts. Excels at independent work, using high focus to learn software layouts and sync visual clips cleanly. Eager to bring these skills into advanced software applications or mechanical systems.</p>
+        </div>
+
+        <div class="cv-section">
+          <h4 class="cv-section-title">Education</h4>
+          <div class="cv-edu-item">
+            <p class="cv-edu-qual">Level 2 Esports & Digital Production Framework</p>
+            <p class="cv-edu-place">Reading College · Reading</p>
+            <p class="cv-edu-date">September 2025 – June 2026</p>
+          </div>
+          <div class="cv-edu-item">
+            <p class="cv-edu-qual">Secondary GCSE Qualifications</p>
+            <p class="cv-edu-place">Local Secondary School · Reading</p>
+            <p class="cv-edu-date">Targeting 5 Core passes including Mathematics and English</p>
+          </div>
+        </div>
+
+        <div class="cv-section">
+          <h4 class="cv-section-title">Key Media Projects</h4>
+          <div class="cv-project-item">
+            <p class="cv-project-name">Final Major Project (FMP) Content Production</p>
+            <p class="cv-project-desc">Produced and formatted a fast-paced video showcase by picking top clips and syncing tracks to music inside CapCut.</p>
+          </div>
+          <div class="cv-project-item">
+            <p class="cv-project-name">Esports Team Rebranding Design</p>
+            <p class="cv-project-desc">Mapped out clean layout graphics, formatting grids, and social assets inside Canva platform tools.</p>
+          </div>
+          <div class="cv-project-item">
+            <p class="cv-project-name">Live Stream Technical Routing</p>
+            <p class="cv-project-desc">Configured display inputs, window captures, and audio channels smoothly using OBS Studio encoders.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="cv-sidebar">
+
+        <div class="cv-section">
+          <h4 class="cv-section-title">Technical Skills</h4>
+          <span class="cv-skill-tag">CapCut Timelines</span>
+          <span class="cv-skill-tag">Music Clip Syncing</span>
+          <span class="cv-skill-tag">OBS Studio Setup</span>
+          <span class="cv-skill-tag">Canva Digital Design</span>
+          <span class="cv-skill-tag">Software Navigation</span>
+          <span class="cv-skill-tag">Asset Layout Formatting</span>
+        </div>
+
+        <div class="cv-section">
+          <h4 class="cv-section-title">Soft Skills</h4>
+          <span class="cv-skill-tag">Independent Focus</span>
+          <span class="cv-skill-tag">Application Learning</span>
+          <span class="cv-skill-tag">Visual Pacing</span>
+          <span class="cv-skill-tag">Troubleshooting</span>
+          <span class="cv-skill-tag">Punctuality</span>
+        </div>
+
+        <div class="cv-section">
+          <h4 class="cv-section-title">Hobbies & Interests</h4>
+          <div class="cv-hobby-item"><div class="cv-hobby-dot"></div>Watching movies & series (Action, Sci-Fi)</div>
+          <div class="cv-hobby-item"><div class="cv-hobby-dot"></div>Following F1 & endurance racing events</div>
+          <div class="cv-hobby-item"><div class="cv-hobby-dot"></div>Competitive video gaming</div>
+          <div class="cv-hobby-item"><div class="cv-hobby-dot"></div>Testing multimedia creation software</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="reflection" class="section">
+  <div class="section-header reveal">
+    <h2 class="section-title">Final Reflection & ILP</h2>
+  </div>
+
+  <div class="ilp-title reveal">Part A — Reflection Questions</div>
+  <div class="reflection-grid">
+
+    <div class="reflect-card reveal reveal-delay-1">
+      <span class="reflect-q-num">Q1</span>
+      <h4 class="reflect-question">What are you most proud of from this course?</h4>
+      <div class="reflect-answer">I am proudest of completing my main coursework units, managing my FMP timeline edits, and learning tools like CapCut and OBS from scratch.</div>
+    </div>
+
+    <div class="reflect-card reveal reveal-delay-2">
+      <span class="reflect-q-num">Q2</span>
+      <h4 class="reflect-question">What was your biggest challenge, and how did you overcome it?</h4>
+      <div class="reflect-answer">My biggest challenge was staying fully driven on competitive play when my real interest was learning software mechanics and digital layouts.</div>
+    </div>
+
+    <div class="reflect-card reveal reveal-delay-3">
+      <span class="reflect-q-num">Q3</span>
+      <h4 class="reflect-question">What skills have you developed the most?</h4>
+      <div class="reflect-answer">I have highly developed my clip-syncing skills, audio timing structures, digital design layouts, and individual focus habits.</div>
+    </div>
+
+    <div class="reflect-card reveal reveal-delay-4">
+      <span class="reflect-q-num">Q4</span>
+      <h4 class="reflect-question">How has your understanding of the esports industry changed?</h4>
+      <div class="reflect-answer">I realized that behind the games, production is driven by software platforms, timeline setup, and lots of technical preparation.</div>
+    </div>
+
+    <div class="reflect-card reveal reveal-delay-5">
+      <span class="reflect-q-num">Q5</span>
+      <h4 class="reflect-question">What would you do differently if you started the course again?</h4>
+      <div class="reflect-answer">I would secure my focus early in the semesters, tuning out room noise to complete my research files way ahead of deadlines.</div>
+    </div>
+
+    <div class="reflect-card reveal reveal-delay-6">
+      <span class="reflect-q-num">Q6</span>
+      <h4 class="reflect-question">How ready do you feel for your next chapter, and why?</h4>
+      <div class="reflect-answer">I feel very ready. Knowing how to adapt to complex software platforms prepares me perfectly for a T Level Software environment.</div>
+    </div>
+
+  </div>
+
+  <div class="ilp-title reveal" style="margin-top:48px;">Part B — Individual Learning Plan (ILP)</div>
+  <div class="reveal" style="overflow-x:auto;">
+    <table class="ilp-table">
+      <thead>
+        <tr>
+          <th>My Strengths</th>
+          <th>Areas to Improve</th>
+          <th>My Next Goal</th>
+          <th>Actions Needed</th>
+          <th>Support Needed</th>
+          <th>Target Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            • Video software timeline cutting<br>
+            • Syncing clips to background audio tracks<br>
+            • High individual focus capacity
+          </td>
+          <td>
+            • Keeping up motivation on long text tasks<br>
+            • Analyzing software deployment steps
+          </td>
+          <td>
+            Enroll on the 2-Year Software Development T Level at Reading College (or pursue Route 2 Motor Vehicle path).
+          </td>
+          <td>
+            1. Wrap up final Level 2 digital logs.<br>
+            2. Achieve core GCSE passing scores.<br>
+            3. Explore basic software tool applications.
+          </td>
+          <td>
+            • Computing department tutors<br>
+            • College career advisors<br>
+            • Peer production groups
+          </td>
+          <td>
+            September 2026
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<footer>
+  <div class="footer-brand">My<span>.</span>Next Chapter</div>
+  <p class="footer-filename"><strong>File Name:</strong> My Next Chapter — Divanshu Sharma</p>
+</footer>
+
+<script>
+// ── NAV SCROLL EFFECT ──
+const nav = document.getElementById('main-nav');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+
+  let current = '';
+  document.querySelectorAll('section').forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// ── SCROLL REVEAL (SCALE UP & BLUR FOCUS) ──
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+
+revealEls.forEach(el => observer.observe(el));
+
+// ── 3D TILT ANIMATION ──
+function applyTilt(card) {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+
+    const rotateX = -dy * 8;
+    const rotateY = dx * 8;
+    const brightness = 1 + (Math.abs(dx) + Math.abs(dy)) * 0.04;
+
+    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`;
+    card.style.transition = 'transform 0.08s ease, box-shadow 0.08s ease';
+    card.style.boxShadow = `
+      ${-rotateY * 2}px ${rotateX * 2}px 50px rgba(0,0,0,0.55),
+      0 0 0 1px rgba(200,169,110,${0.05 + Math.abs(dx + dy) * 0.05})
+    `;
+    card.style.filter = `brightness(${brightness})`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    card.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s, filter 0.5s';
+    card.style.boxShadow = '';
+    card.style.filter = '';
+  });
+}
+
+document.querySelectorAll('.tilt-card').forEach(applyTilt);
+</script>
+
+</body>
+</html>
